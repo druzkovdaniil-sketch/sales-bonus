@@ -5,7 +5,7 @@ const path = require('path');
 const { calculateSimpleRevenue, calculateBonusByProfit, analyzeSalesData } = require('./main.js');
 
 // Загружаем реальные данные из dataset_1.js
-const realData = require('../data/dataset_1.js');
+const realData = require('../data/index.js');
 
 // Опции с функциями расчета
 const options = {
