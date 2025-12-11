@@ -235,3 +235,10 @@ function analyzeSalesData(data, options) {
 
   return finalResult;
 }
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        calculateSimpleRevenue,
+        calculateBonusByProfit,
+        analyzeSalesData
+    };
+}
