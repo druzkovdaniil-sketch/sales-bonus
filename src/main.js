@@ -23,8 +23,8 @@ function calculateBonusByProfit(index, total, seller) {
 
 function analyzeSalesData(data, options) {
     // Проверка входных данных
-    if (!data) throw new Error("Данные не предоставлены");
-    
+    if (!data) {throw new Error("Данные не предоставлены");
+    }
     if (!Array.isArray(data.sellers) || data.sellers.length === 0) {
         throw new Error("Данные о продавцах должны быть непустым массивом");
     }
@@ -74,14 +74,18 @@ function analyzeSalesData(data, options) {
     data.purchase_records.forEach(purchase => {
         const sellerId = purchase.seller_id;
         
-        if (!sellersStats[sellerId]) return;
-        
+        if (!sellersStats[sellerId]) {
+            return;
+        }
         // Обрабатываем каждый товар в чеке
         purchase.items.forEach(item => {
             const productSku = item.sku;
             const product = productsIndex[productSku];
             
-            if (!product) return;
+            if (!product) {
+                return;
+
+            }
             
             // Вычисляем выручку
             const revenue = calculateRevenue({

@@ -17,5 +17,7 @@ const checkFile = (path, name) => {
 checkFile('./src/main.js', 'main.js');
 checkFile('./src/test.js', 'test.js');
 checkFile('./data/dataset_1.js', 'dataset_1.js');
+checkFile('./data/dataset_2.js', 'dataset_2.js');
+checkFile('./data/dataset_3.js', 'dataset_3.js');
 
 console.log("\nТекущая папка:", process.cwd());

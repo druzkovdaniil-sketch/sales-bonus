@@ -1,10 +1,8 @@
-// test.js в папке src
-const path = require('path');
 
 // Импортируем функции из main.js (он в той же папке)
 const { calculateSimpleRevenue, calculateBonusByProfit, analyzeSalesData } = require('./main.js');
 
-// Загружаем реальные данные из dataset_1.js
+// Загружаем реальные данные из dataset_1.js и тд
 const realData = require('../data/index.js');
 
 // Опции с функциями расчета
