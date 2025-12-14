@@ -214,7 +214,7 @@ function analyzeSalesData(data, options) {
       .sort((a, b) => {
         // Сортировка по убыванию количества, затем по sku для стабильности
         if (b[1] !== a[1]) return b[1] - a[1];
-        return b[0].localeCompare(a[0]);
+        return a[0].localeCompare(b[0]);
       })
       .slice(0, 10) // Берем топ-10
       .map(([sku, quantity]) => ({
