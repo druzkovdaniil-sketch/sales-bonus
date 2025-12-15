@@ -220,9 +220,7 @@ function analyzeSalesData(data, options) {
     // Сортировка по убыванию количества
     if (b.quantity !== a.quantity) return b.quantity - a.quantity;
     // Если количество одинаковое - извлекаем номер из SKU
-    const numA = parseInt(a.sku.split('_')[1]);
-    const numB = parseInt(b.sku.split('_')[1]);
-    return numB - numA; // Сортировка по убыванию номера
+    return b.sku.localeCompare(a.sku); // Изменено на убывание
   })
   .slice(0, 10);
 });
