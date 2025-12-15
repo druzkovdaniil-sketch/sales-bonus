@@ -228,13 +228,13 @@ function analyzeSalesData(data, options) {
     sku, 
     quantity,
     // Добавляем дополнительное поле для сортировки
-    skuNumber: parseInt(sku.split('_')[1])
+     productName: productsIndex[sku].name
   }))
   .sort((a, b) => {
     // Сортировка по убыванию количества
     if (b.quantity !== a.quantity) return b.quantity - a.quantity;
-    // Если количество одинаковое - сортируем по номеру SKU
-    return b.skuNumber - a.skuNumber; // Убывание по номеру
+    // Если количество одинаковое - сортируем по названию товара
+     return a.productName.localeCompare(b.productName);
   })
   .map(({ sku, quantity }) => ({ sku, quantity })) // Убираем вспомогательное поле
   .slice(0, 10);
