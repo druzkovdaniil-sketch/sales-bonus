@@ -224,19 +224,21 @@ function analyzeSalesData(data, options) {
   // })
   // .slice(0, 10);
   seller.top_products = Object.entries(seller.products_sold)
-  .map(([sku, quantity]) => ({ 
-    sku, 
-    quantity,
-    // Добавляем дополнительное поле для сортировки
-     productName: productsIndex[sku].name
-  }))
+ .map(([sku, quantity]) => {
+    const product = productsIndex[sku];
+    return { 
+      sku, 
+      quantity,
+      margin: product.sale_price - product.purchase_price
+    };
+  })
   .sort((a, b) => {
     // Сортировка по убыванию количества
     if (b.quantity !== a.quantity) return b.quantity - a.quantity;
-    // Если количество одинаковое - сортируем по названию товара
-     return a.productName.localeCompare(b.productName);
+    // Если количество одинаковое - сортируем по убыванию маржи
+    return b.margin - a.margin;
   })
-  .map(({ sku, quantity }) => ({ sku, quantity })) // Убираем вспомогательное поле
+  .map(({ sku, quantity }) => ({ sku, quantity }))
   .slice(0, 10);
 });
 
