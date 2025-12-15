@@ -214,17 +214,18 @@ function analyzeSalesData(data, options) {
   });
 
   // @TODO: Подготовка итоговой коллекции с нужными полями
-  const finalResult = sellerStats.map(seller => ({
-    seller_id: seller.id,
-    name: seller.name,
-    revenue: +seller.revenue.toFixed(2),
-    profit: +seller.profit.toFixed(2),
-    sales_count: seller.sales_count,
-    bonus: +seller.bonus.toFixed(2),
-    top_products: seller.top_products
+  
+     return sellerStats.map(seller => ({
+        seller_id: seller.id,
+        name: seller.name,
+        revenue: +seller.revenue.toFixed(2),
+        profit: +seller.profit.toFixed(2),
+        sales_count: seller.sales_count,
+        top_products: seller.top_products,
+        bonus: +seller.bonus.toFixed(2)
   }));
 
-  return finalResult;
+ 
 }
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
