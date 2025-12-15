@@ -190,15 +190,15 @@ function analyzeSalesData(data, options) {
   });
 
   // Преобразуем объект статистики в массив для сортировки
-  const sellerStatsArray = Object.values(sellersStats);
+  const sellerStats = Object.values(sellersStats);
 
   // @TODO: Сортировка продавцов по прибыли
-  sellerStatsArray.sort((a, b) => b.profit - a.profit);
+  sellerStats.sort((a, b) => b.profit - a.profit);
 
    // @TODO: Назначение премий на основе ранжирования и определение топ товаров
-  sellerStatsArray.forEach((seller, index) => {
+  sellerStats.forEach((seller, index) => {
     // Расчет бонуса
-    seller.bonus = calculateBonus(index, sellerStatsArray.length, seller);
+    seller.bonus = calculateBonus(index, sellerStats.length, seller);
     
     // Определение топ-10 товаров по количеству продаж
     // Сначала сортируем по убыванию quantity, при равенстве - по возрастанию sku
@@ -214,7 +214,7 @@ function analyzeSalesData(data, options) {
   });
 
   // @TODO: Подготовка итоговой коллекции с нужными полями
-  const finalResult = sellerStatsArray.map(seller => ({
+  const finalResult = sellerStats.map(seller => ({
     seller_id: seller.id,
     name: seller.name,
     revenue: +seller.revenue.toFixed(2),
