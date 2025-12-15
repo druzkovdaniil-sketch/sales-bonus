@@ -218,16 +218,14 @@ function analyzeSalesData(data, options) {
   // @TODO: Подготовка итоговой коллекции с нужными полями
   
      return sellerStats.map(seller => ({
-        seller_id: seller.id,
-        name: seller.name,
-       revenue: Math.round(seller.revenue * 100) / 100,
-    profit: Math.round(seller.profit * 100) / 100,
+    seller_id: seller.id,
+    name: seller.name,
+    revenue: +seller.revenue.toFixed(2),
+    profit: +seller.profit.toFixed(2),
     sales_count: seller.sales_count,
-    bonus: Math.round(seller.bonus * 100) / 100,
-    top_products: seller.top_products,
-        bonus: +seller.bonus.toFixed(2)
-  }));
-
+    top_products: seller.top_products,  
+    bonus: +seller.bonus.toFixed(2)     
+}));
  
 }
 if (typeof module !== 'undefined' && module.exports) {
