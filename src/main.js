@@ -214,14 +214,29 @@ function analyzeSalesData(data, options) {
   //     })
   //     .slice(0, 10);
   // });
+  // seller.top_products = Object.entries(seller.products_sold)
+  // .map(([sku, quantity]) => ({ sku, quantity }))
+  // .sort((a, b) => {
+  //   // Сортировка по убыванию количества
+  //   if (b.quantity !== a.quantity) return b.quantity - a.quantity;
+  //   // Если количество одинаковое - извлекаем номер из SKU
+  //   return a.sku.localeCompare(b.sku); // Изменено на убывание
+  // })
+  // .slice(0, 10);
   seller.top_products = Object.entries(seller.products_sold)
-  .map(([sku, quantity]) => ({ sku, quantity }))
+  .map(([sku, quantity]) => ({ 
+    sku, 
+    quantity,
+    // Добавляем дополнительное поле для сортировки
+    skuNumber: parseInt(sku.split('_')[1])
+  }))
   .sort((a, b) => {
     // Сортировка по убыванию количества
     if (b.quantity !== a.quantity) return b.quantity - a.quantity;
-    // Если количество одинаковое - извлекаем номер из SKU
-    return a.sku.localeCompare(b.sku); // Изменено на убывание
+    // Если количество одинаковое - сортируем по номеру SKU
+    return b.skuNumber - a.skuNumber; // Убывание по номеру
   })
+  .map(({ sku, quantity }) => ({ sku, quantity })) // Убираем вспомогательное поле
   .slice(0, 10);
 });
 
