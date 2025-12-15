@@ -173,8 +173,8 @@ function analyzeSalesData(data, options) {
 
       // Обновляем статистику продавца
       const sellerStats = sellersStats[sellerId];
-      sellerStats.revenue += revenue;
-      sellerStats.profit += profit;
+       sellerStats.revenue = parseFloat((sellerStats.revenue + revenue).toFixed(2));
+      sellerStats.profit = parseFloat((sellerStats.profit + profit).toFixed(2));
 
       // Обновляем информацию о проданных товарах
       if (!sellerStats.products_sold[productSku]) {
