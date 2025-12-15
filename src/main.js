@@ -229,7 +229,7 @@ function analyzeSalesData(data, options) {
     return { 
       sku, 
       quantity,
-      margin: product.sale_price - product.purchase_price
+      purchase_price: productsIndex[sku].purchase_price
     };
   })
   .sort((a, b) => {
