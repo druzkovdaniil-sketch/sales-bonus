@@ -173,7 +173,9 @@ function analyzeSalesData(data, options) {
 
       // Обновляем статистику продавца
       const sellerStats = sellersStats[sellerId];
-      sellerStats.revenue = parseFloat((sellerStats.revenue + revenue).toFixed(2));
+      sellerStats.revenue = parseFloat(
+        (sellerStats.revenue + revenue).toFixed(2)
+      );
       sellerStats.profit += profit;
 
       // Обновляем информацию о проданных товарах
@@ -195,13 +197,11 @@ function analyzeSalesData(data, options) {
   // @TODO: Сортировка продавцов по прибыли
   sellerStats.sort((a, b) => b.profit - a.profit);
 
-
-
-   // @TODO: Назначение премий на основе ранжирования и определение топ товаров
+  // @TODO: Назначение премий на основе ранжирования и определение топ товаров
   sellerStats.forEach((seller, index) => {
     // Расчет бонуса
     seller.bonus = calculateBonus(index, sellerStats.length, seller);
-    
+
     // Определение топ-10 товаров по количеству продаж
     // Сначала сортируем по убыванию quantity, при равенстве - по возрастанию sku
     seller.top_products = Object.entries(seller.products_sold)
@@ -216,22 +216,21 @@ function analyzeSalesData(data, options) {
   });
 
   // @TODO: Подготовка итоговой коллекции с нужными полями
-  
-     return sellerStats.map(seller => ({
+
+  return sellerStats.map((seller) => ({
     seller_id: seller.id,
     name: seller.name,
     revenue: +seller.revenue.toFixed(2),
     profit: +seller.profit.toFixed(2),
     sales_count: seller.sales_count,
-    top_products: seller.top_products,  
-    bonus: +seller.bonus.toFixed(2)     
-}));
- 
+    top_products: seller.top_products,
+    bonus: +seller.bonus.toFixed(2),
+  }));
 }
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = {
-        calculateSimpleRevenue,
-        calculateBonusByProfit,
-        analyzeSalesData
-    };
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = {
+    calculateSimpleRevenue,
+    calculateBonusByProfit,
+    analyzeSalesData,
+  };
 }
