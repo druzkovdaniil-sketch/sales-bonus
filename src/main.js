@@ -204,16 +204,28 @@ function analyzeSalesData(data, options) {
 
     // Определение топ-10 товаров по количеству продаж
     // Сначала сортируем по убыванию quantity, при равенстве - по возрастанию sku
-    seller.top_products = Object.entries(seller.products_sold)
-      .map(([sku, quantity]) => ({ sku, quantity }))
-      .sort((a, b) => {
-        // Сортировка по убыванию количества
-        if (b.quantity !== a.quantity) return b.quantity - a.quantity;
-        // Если количество одинаковое - сортируем по sku по возрастанию
-        return a.sku.localeCompare(b.sku);
-      })
-      .slice(0, 10);
-  });
+  //   seller.top_products = Object.entries(seller.products_sold)
+  //     .map(([sku, quantity]) => ({ sku, quantity }))
+  //     .sort((a, b) => {
+  //       // Сортировка по убыванию количества
+  //       if (b.quantity !== a.quantity) return b.quantity - a.quantity;
+  //       // Если количество одинаковое - сортируем по sku по возрастанию
+  //       return a.sku.localeCompare(b.sku);
+  //     })
+  //     .slice(0, 10);
+  // });
+  seller.top_products = Object.entries(seller.products_sold)
+  .map(([sku, quantity]) => ({ sku, quantity }))
+  .sort((a, b) => {
+    // Сортировка по убыванию количества
+    if (b.quantity !== a.quantity) return b.quantity - a.quantity;
+    // Если количество одинаковое - извлекаем номер из SKU
+    const numA = parseInt(a.sku.split('_')[1]);
+    const numB = parseInt(b.sku.split('_')[1]);
+    return numB - numA; // Сортировка по убыванию номера
+  })
+  .slice(0, 10);
+});
 
   // @TODO: Подготовка итоговой коллекции с нужными полями
 
