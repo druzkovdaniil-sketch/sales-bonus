@@ -190,48 +190,39 @@ function analyzeSalesData(data, options) {
   });
 
   // Преобразуем объект статистики в массив для сортировки
-  const sellersArray = Object.values(sellersStats);
+  const sellerStatsArray = Object.values(sellersStats);
 
   // @TODO: Сортировка продавцов по прибыли
-  sellersArray.sort((a, b) => b.profit - a.profit);
+  sellerStatsArray.sort((a, b) => b.profit - a.profit);
 
-  // @TODO: Назначение премий на основе ранжирования
-  const totalSellers = sellersArray.length;
-  const result = sellersArray.map((seller, index) => {
-    const bonus = calculateBonus(index, totalSellers, seller);
-
-    return {
-      ...seller,
-      bonus: bonus,
-      position: index + 1,
-    };
+   // @TODO: Назначение премий на основе ранжирования и определение топ товаров
+  sellerStatsArray.forEach((seller, index) => {
+    // Расчет бонуса
+    seller.bonus = calculateBonus(index, sellerStatsArray.length, seller);
+    
+    // Определение топ-10 товаров по количеству продаж
+    // Сначала сортируем по убыванию quantity, при равенстве - по возрастанию sku
+    seller.top_products = Object.entries(seller.products_sold)
+      .map(([sku, quantity]) => ({ sku, quantity }))
+      .sort((a, b) => {
+        // Сортировка по убыванию количества
+        if (b.quantity !== a.quantity) return b.quantity - a.quantity;
+        // Если количество одинаковое - сортируем по sku по возрастанию
+        return a.sku.localeCompare(b.sku);
+      })
+      .slice(0, 10);
   });
 
   // @TODO: Подготовка итоговой коллекции с нужными полями
-  const finalResult = result.map((seller) => {
-    // Определяем топ товары (топ-10 по количеству продаж)
-    const topProducts = Object.entries(seller.products_sold)
-      .sort((a, b) => {
-        // Сортировка по убыванию количества, затем по sku для стабильности
-        if (b[1] !== a[1]) return b[1] - a[1];
-        return a[0].localeCompare(b[0]);
-      })
-      .slice(0, 10) // Берем топ-10
-      .map(([sku, quantity]) => ({
-        sku: sku,
-        quantity: quantity,
-      }));
-
-    return {
-      seller_id: seller.id,
-      name: seller.name,
-      revenue: Math.round(seller.revenue * 100) / 100,
-      profit: Math.round(seller.profit * 100) / 100,
-      sales_count: seller.sales_count,
-      bonus: Math.round(seller.bonus * 100) / 100,
-      top_products: topProducts,
-    };
-  });
+  const finalResult = sellerStatsArray.map(seller => ({
+    seller_id: seller.id,
+    name: seller.name,
+    revenue: +seller.revenue.toFixed(2),
+    profit: +seller.profit.toFixed(2),
+    sales_count: seller.sales_count,
+    bonus: +seller.bonus.toFixed(2),
+    top_products: seller.top_products
+  }));
 
   return finalResult;
 }
